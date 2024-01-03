@@ -69,21 +69,21 @@ jobs:
           # Add more specific debug logs for signing
           DEBUG: 'electron-builder*,electron-osx-sign*'
 
-      # Separate Notarization Step for macOS
-      - name: Notarize macOS App
-        if: matrix.os == 'macos-latest'
-        # Add retry here as well, notarization can sometimes fail temporarily
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 30 # Generous timeout for notarization
-          max_attempts: 3
-          # Execute the dedicated notarization script
-          command: node notarize.js
-        env:
-          # Pass necessary values to the script via environment variables
-          APP_BUNDLE_ID: com.soulsociety.shadowai
-          APP_PATH: dist/mac-arm64/shadowai.app
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }} # Ensure this uses the correct secret name
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        # shell: bash # Not needed when using node -e
+            # Separate Notarization Step for macOS
+            - name: Notarize macOS App
+              if: matrix.os == 'macos-latest'
+              # Add retry here as well, notarization can sometimes fail temporarily
+              uses: nick-fields/retry@v2
+              with:
+                  timeout_minutes: 30 # Generous timeout for notarization
+                  max_attempts: 3
+                  # Execute the dedicated notarization script
+                  command: node notarize.js
+              env:
+                  # Pass necessary values to the script via environment variables
+                  APP_BUNDLE_ID: com.kunaldas.shadowai
+                  APP_PATH: dist/mac-arm64/shadowai.app
+                  APPLE_ID: ${{ secrets.APPLE_ID }}
+                  APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }} # Ensure this uses the correct secret name
+                  APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+              # shell: bash # Not needed when using node -e

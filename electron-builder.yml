@@ -1,4 +1,4 @@
-appId: com.soulsociety.shadowai
+appId: com.kunaldas.shadowai
 productName: shadow-ai
 directories:
     buildResources: build
@@ -47,6 +47,6 @@ appImage:
 npmRebuild: false
 publish:
     provider: github
-    owner: Soul Society
-    repo: shadow-ai
+    owner: Kunaldas01
+    repo: shadow-stealth-ai-assistant
     releaseType: release
