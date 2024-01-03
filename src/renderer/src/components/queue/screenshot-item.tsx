@@ -37,14 +37,12 @@ const ScreenshotItem: React.FC<ScreenshotItemProps> = ({
             src={screenshot.preview}
             alt="Screenshot preview"
             className={`w-full h-full object-cover transition-transform duration-300 ${
-              isLoading
-                ? 'opacity-50'
-                : 'cursor-pointer group-hover:scale-105 group-hover:brightness-75'
+              isLoading ? 'opacity-50' : 'group-hover:scale-105 group-hover:brightness-75'
             }`}
           />
           {!isLoading && (
             <button
-              className="absolute top-2 left-2 p-1 rounded-full bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute top-2 left-2 p-1 rounded-full bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation()
                 handleDelete()

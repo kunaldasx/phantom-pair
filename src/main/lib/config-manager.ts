@@ -18,11 +18,11 @@ export class ConfigManager extends EventEmitter {
   private configPath: string
   private defaultConfig: Config = {
     apiKey: '',
-    apiProvider: 'openai',
-    extractionModel: 'gpt-4o-mini',
-    solutionModel: 'gpt-4o-mini',
-    debuggingModel: 'gpt-4o-mini',
-    language: 'python',
+    apiProvider: 'gemini',
+    extractionModel: 'gemini-2.5-flash',
+    solutionModel: 'gemini-2.5-flash',
+    debuggingModel: 'gemini-2.5-flash',
+    language: 'cpp',
     opacity: 1.0
   }
 
@@ -64,19 +64,19 @@ export class ConfigManager extends EventEmitter {
 
   private sanitizeModelSelection(model: string, provider: 'openai' | 'gemini') {
     if (provider === 'openai') {
-      const allowedModels = ['gpt-4o-mini', 'gpt-4o']
+      const allowedModels = ['gpt-5', 'gpt-4o', 'o4-mini']
       if (!allowedModels.includes(model)) {
         console.log(`Invalid model: ${model} for provider: ${provider}. Defaulting to gpt-4o`)
         return 'gpt-4o'
       }
       return model
     } else if (provider === 'gemini') {
-      const allowedModels = ['gemini-2.0-flash', 'gemini-1.5-pro']
+      const allowedModels = ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite']
       if (!allowedModels.includes(model)) {
         console.log(
-          `Invalid model: ${model} for provider: ${provider}. Defaulting to gemini-1.5-flash`
+          `Invalid model: ${model} for provider: ${provider}. Defaulting to gemini-2.5-flash`
         )
-        return 'gemini-2.0-flash'
+        return 'gemini-2.5-flash'
       }
       return model
     }
@@ -152,9 +152,9 @@ export class ConfigManager extends EventEmitter {
           updates.solutionModel = 'gpt-4o'
           updates.debuggingModel = 'gpt-4o'
         } else {
-          updates.extractionModel = 'gemini-2.0-flash'
-          updates.solutionModel = 'gemini-2.0-flash'
-          updates.debuggingModel = 'gemini-2.0-flash'
+          updates.extractionModel = 'gemini-2.5-flash'
+          updates.solutionModel = 'gemini-2.5-flash'
+          updates.debuggingModel = 'gemini-2.5-flash'
         }
       }
 

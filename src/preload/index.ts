@@ -31,8 +31,7 @@ const electronAPI = {
   toggleMainWindow: async () => {
     console.log('toggleMainWindow called from preload')
     try {
-      const result = await ipcRenderer.invoke('toggle-main-window')
-      return result
+      await ipcRenderer.invoke('toggle-main-window')
     } catch (error) {
       console.error('Error toggling main window:', error)
       throw error
@@ -122,6 +121,17 @@ const electronAPI = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   removeListener: (eventName: string, callback: (...args: any[]) => void) => {
     ipcRenderer.removeListener(eventName, callback)
+  },
+
+  toggleMouseClick: async () => {
+    console.log('toggleMouseClick called from preload')
+    try {
+      const result = await ipcRenderer.invoke('toggle-mouse-click')
+      return result
+    } catch (error) {
+      console.error('Error toggling click through:', error)
+      throw error
+    }
   }
 }
 

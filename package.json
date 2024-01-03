@@ -1,9 +1,9 @@
 {
-  "name": "silent-coder",
-  "version": "1.0.7",
+  "name": "shadow-ai",
+  "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "Soul Society",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -31,6 +31,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.488.0",
+    "motion": "^12.23.12",
     "openai": "^4.94.0",
     "postcss": "^8.5.3",
     "react-syntax-highlighter": "^15.6.1",
@@ -61,11 +62,5 @@
     "typescript": "^5.8.3",
     "vite": "^6.2.6"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "esbuild"
-    ]
-  },
-  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b"
+  "packageManager": "npm@11.2.0"
 }

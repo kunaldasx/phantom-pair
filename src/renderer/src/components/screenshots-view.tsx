@@ -116,9 +116,9 @@ const ScreenshotsView: React.FC<ScreenshotsViewProps> = ({
   }
 
   return (
-    <div ref={contentRef} className={`bg-transparent w-1/2`}>
-      <div className="px-4 py-3">
-        <div className="space-y-3 w-fit">
+    <div ref={contentRef} className={`bg-transparent w-full`}>
+      <div className="w-full px-4 py-3">
+        <div className="space-y-3 w-full">
           <ScreenshotQueue
             screenshots={screenshots}
             isLoading={isLoading}

@@ -20,7 +20,8 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': eslintPluginReactHooks,
-      'react-refresh': eslintPluginReactRefresh
+      'react-refresh': eslintPluginReactRefresh,
+      prettier: prettier
     },
     rules: {
       ...eslintPluginReactHooks.configs.recommended.rules,
