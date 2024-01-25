@@ -44,6 +44,7 @@ jobs:
             # Linux-specific publish step
             - name: Build and Publish (Linux)
               if: matrix.os == 'ubuntu-latest'
+              continue-on-error: true
               run: npm run build:linux -- --publish always
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
