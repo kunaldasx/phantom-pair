@@ -44,11 +44,7 @@ jobs:
             # Linux-specific publish step
             - name: Build and Publish (Linux)
               if: matrix.os == 'ubuntu-latest'
-              uses: nick-fields/retry@v3
-              with:
-                  timeout_minutes: 45
-                  max_attempts: 3
-                  command: npm run build:linux -- --publish always
+              run: npm run build:linux -- --publish always
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   DEBUG: electron-builder
