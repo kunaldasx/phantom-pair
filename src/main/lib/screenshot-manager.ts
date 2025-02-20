@@ -11,7 +11,7 @@ const execFileAsync = promisify(execFile)
 export class ScreenshotManager {
   private screenshotQueue: string[] = []
   private extraScreenshotQueue: string[] = []
-  private readonly MAX_SCREENSHOTS = 5
+  private readonly MAX_SCREENSHOTS = 4
 
   private readonly screenshotDir: string
   private readonly extraScreenshotDir: string
@@ -24,7 +24,7 @@ export class ScreenshotManager {
 
     this.screenshotDir = path.join(app.getPath('userData'), 'screenshots')
     this.extraScreenshotDir = path.join(app.getPath('userData'), 'extra_screenshots')
-    this.tempDir = path.join(app.getPath('temp'), 'silent-coder-screenshots')
+    this.tempDir = path.join(app.getPath('temp'), 'shadow-ai-screenshots')
 
     this.ensureDirectoriesExist()
     this.cleanScreenshotDirectories()
@@ -173,24 +173,24 @@ export class ScreenshotManager {
       console.error('Failed to capture Windows screenshot:', error)
 
       try {
-        console.log('Trying powrshell method')
+        console.log('Trying powershell method')
         const tempFilePath = path.join(this.tempDir, `temp-${uuidv4()}.png`)
 
         const psScript = `
-         Add-Type -AssemblyName System.Windows.Forms,System.Drawing
-         $screens = [System.Windows.Forms.Screen]::AllScreens
-         $top = ($screens | ForEach-Object {$_.Bounds.Top} | Measure-Object -Minimum).Minimum
-         $left = ($screens | ForEach-Object {$_.Bounds.Left} | Measure-Object -Minimum).Minimum
-         $width = ($screens | ForEach-Object {$_.Bounds.Right} | Measure-Object -Maximum).Maximum
-         $height = ($screens | ForEach-Object {$_.Bounds.Bottom} | Measure-Object -Maximum).Maximum
-         $bounds = [System.Drawing.Rectangle]::FromLTRB($left, $top, $width, $height)
-         $bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
-         $graphics = [System.Drawing.Graphics]::FromImage($bmp)
-         $graphics.CopyFromScreen($bounds.Left, $bounds.Top, 0, 0, $bounds.Size)
-         $bmp.Save('${tempFilePath.replace(/\\/g, '\\\\')}', [System.Drawing.Imaging.ImageFormat]::Png)
-         $graphics.Dispose()
-         $bmp.Dispose()
-         `
+				Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+				$screens = [System.Windows.Forms.Screen]::AllScreens
+				$top = ($screens | ForEach-Object {$_.Bounds.Top} | Measure-Object -Minimum).Minimum
+				$left = ($screens | ForEach-Object {$_.Bounds.Left} | Measure-Object -Minimum).Minimum
+				$width = ($screens | ForEach-Object {$_.Bounds.Right} | Measure-Object -Maximum).Maximum
+				$height = ($screens | ForEach-Object {$_.Bounds.Bottom} | Measure-Object -Maximum).Maximum
+				$bounds = [System.Drawing.Rectangle]::FromLTRB($left, $top, $width, $height)
+				$bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+				$graphics = [System.Drawing.Graphics]::FromImage($bmp)
+				$graphics.CopyFromScreen($bounds.Left, $bounds.Top, 0, 0, $bounds.Size)
+				$bmp.Save('${tempFilePath.replace(/\\/g, '\\\\')}', [System.Drawing.Imaging.ImageFormat]::Png)
+				$graphics.Dispose()
+				$bmp.Dispose()
+				`
 
         await execFileAsync('powershell', [
           '-NoProfile',
@@ -313,7 +313,10 @@ export class ScreenshotManager {
       return { success: true }
     } catch (error) {
       console.error('Failed to delete screenshot:', error)
-      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }
     }
   }
 

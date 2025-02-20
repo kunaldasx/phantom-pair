@@ -1,4 +1,4 @@
-name: Build and Publish Silent Coder
+name: Build and Publish Shadow AI
 
 on:
   push:
@@ -27,14 +27,14 @@ jobs:
         with:
           node-version: 18 # Or your preferred Node version
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Install npm
+        uses: npm/action-setup@v2
         with:
-          version: 10.5.2 # Or your preferred pnpm version
+          version: 11.2.0 # Or your preferred npm version
 
       - name: Install dependencies
         # This installs @electron/notarize from package.json
-        run: pnpm install --no-frozen-lockfile
+        run: npm install --no-frozen-lockfile
 
       # Windows-specific publish step
       - name: Build and Publish (Windows)
@@ -43,7 +43,7 @@ jobs:
         with:
           timeout_minutes: 45
           max_attempts: 3
-          command: pnpm run build:win -- --publish always
+          command: npm run build:win -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEBUG: electron-builder # Optional: for detailed logs
@@ -55,8 +55,8 @@ jobs:
         with:
           timeout_minutes: 45 # Keep extended timeout for signing
           max_attempts: 3
-          # Assumes 'pnpm run build:mac' uses your electron-builder.yml
-          command: pnpm run build:mac -- --publish always
+          # Assumes 'npm run build:mac' uses your electron-builder.yml
+          command: npm run build:mac -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -81,8 +81,8 @@ jobs:
           command: node notarize.js
         env:
           # Pass necessary values to the script via environment variables
-          APP_BUNDLE_ID: com.kuluruvineeth.silentcoder
-          APP_PATH: dist/mac-arm64/silent-coder.app
+          APP_BUNDLE_ID: com.soulsociety.shadowai
+          APP_PATH: dist/mac-arm64/shadowai.app
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }} # Ensure this uses the correct secret name
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

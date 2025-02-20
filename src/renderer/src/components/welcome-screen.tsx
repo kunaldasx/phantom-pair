@@ -6,14 +6,14 @@ interface WelcomeScreenProps {
 
 export const WelcomeScreen = ({ onOpenSettings }: WelcomeScreenProps): React.JSX.Element => {
   return (
-    <div className="bg-black min-h-screen flex flex-col items-center justify-center p-6">
+    <div className="w-full bg-black flex flex-col items-start justify-center p-6">
       <div className="max-w-md w-full bg-black border border-white/10 rounded-xl p-6 shadow-lg">
         <h1 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-          <span>Silent Coder</span>
+          <span>Shadow AI</span>
         </h1>
 
         <div className="mb-8">
-          <h2 className="text-lg font-medium text-white mb-3">Welcome to Silent Coder</h2>
+          <h2 className="text-lg font-medium text-white mb-3">Welcome to Shadow AI</h2>
           <p className="text-white/70 text-sm mb-4">
             This application helps you by providing AI powered solutions to coding problems.
           </p>
@@ -23,6 +23,10 @@ export const WelcomeScreen = ({ onOpenSettings }: WelcomeScreenProps): React.JSX
               <li className="flex justify-between text-sm">
                 <span className="text-white/70">Toggle Visibility</span>
                 <span className="text-white/90">Ctrl+B / Cmd+B</span>
+              </li>
+              <li className="flex justify-between text-sm">
+                <span className="text-white/70">Toggle Mouse Click</span>
+                <span className="text-white/90">Ctrl+; / Cmd+;</span>
               </li>
               <li className="flex justify-between text-sm">
                 <span className="text-white/70">Take Screenshot</span>

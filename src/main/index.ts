@@ -11,6 +11,7 @@ import { configManager } from './lib/config-manager'
 export const state = {
   mainWindow: null as BrowserWindow | null,
   isWindowVisible: false,
+  isWindowClickable: true,
   windowPosition: null as { x: number; y: number } | null,
   windowSize: null as { width: number; height: number } | null,
   screenWidth: 0,
@@ -58,9 +59,9 @@ async function createWindow(): Promise<void> {
 
   // Create the browser window.
   const windowSettings: Electron.BrowserWindowConstructorOptions = {
-    width: 800,
+    width: 900,
     height: 600,
-    minWidth: 750,
+    minWidth: 900,
     minHeight: 550,
     x: state.currentX,
     y: state.currentY,
@@ -111,7 +112,7 @@ async function createWindow(): Promise<void> {
 
   state.mainWindow.webContents.setZoomFactor(1)
   //TODO: Comment this out when not in development
-  // state.mainWindow.webContents.openDevTools()
+  // state.mainWindow.webContents.openDevTools();
   state.mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -151,6 +152,7 @@ async function createWindow(): Promise<void> {
   state.currentX = bounds.x
   state.currentY = bounds.y
   state.isWindowVisible = true
+  state.isWindowClickable = true
 
   const savedOpacity = configManager.getOpacity()
   console.log('savedOpacity', savedOpacity)
@@ -250,25 +252,9 @@ function moveWindowHorizontal(updateFn: (x: number) => number): void {
 
 function moveWindowVertical(updateFn: (y: number) => number): void {
   if (!state.mainWindow) return
-
   const newY = updateFn(state.currentY)
-
-  const maxUpLimit = (-(state.windowSize?.height || 0) * 2) / 3
-  const maxDownLimit = state.screenHeight + ((state.windowSize?.height || 0) * 2) / 3
-
-  console.log({
-    newY,
-    maxUpLimit,
-    maxDownLimit,
-    screenHeight: state.screenHeight,
-    windowHeight: state.windowSize?.height,
-    currentY: state.currentY
-  })
-
-  if (newY >= maxUpLimit && newY <= maxDownLimit) {
-    state.currentY = newY
-    state.mainWindow.setPosition(Math.round(state.currentX), Math.round(state.currentY))
-  }
+  state.currentY = newY
+  state.mainWindow.setPosition(Math.round(state.currentX), Math.round(state.currentY))
 }
 
 function hideMainWindow(): void {
@@ -292,9 +278,17 @@ function showMainWindow(): void {
         ...state.windowSize
       })
     }
-    state.mainWindow?.setIgnoreMouseEvents(false)
+
+    if (state.isWindowClickable) {
+      state.mainWindow?.setIgnoreMouseEvents(false)
+    } else {
+      state.mainWindow?.setIgnoreMouseEvents(true, { forward: true })
+    }
+
     state.mainWindow?.setAlwaysOnTop(true, 'screen-saver', 1)
-    state.mainWindow?.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+    state.mainWindow?.setVisibleOnAllWorkspaces(true, {
+      visibleOnFullScreen: true
+    })
     state.mainWindow?.setContentProtection(true)
     state.mainWindow?.setOpacity(0)
     state.mainWindow?.showInactive()
@@ -310,6 +304,18 @@ function toggleMainWindow(): void {
     hideMainWindow()
   } else {
     showMainWindow()
+  }
+}
+
+function toggleMouseClick(): void {
+  if (state.isWindowClickable) {
+    console.log('Mouse click enabled')
+    state.mainWindow?.setIgnoreMouseEvents(true, { forward: true })
+    state.isWindowClickable = false
+  } else {
+    console.log('Mouse click disabled')
+    state.mainWindow?.setIgnoreMouseEvents(false)
+    state.isWindowClickable = true
   }
 }
 
@@ -370,7 +376,8 @@ function initializeHelpers() {
     getImagePreview: getImagePreview,
     clearQueues: clearQueues,
     setView: setView,
-    processingManager: state.processingManager
+    processingManager: state.processingManager,
+    toggleMouseClick: toggleMouseClick
   })
 }
 
@@ -432,7 +439,8 @@ async function initializeApp() {
       getImagePreview: getImagePreview,
       PROCESSING_EVENTS: state.PROCESSING_EVENTS,
       processingManager: state.processingManager,
-      setWindowDimensions: setWindowDimensions
+      setWindowDimensions: setWindowDimensions,
+      toggleMouseClick: toggleMouseClick
     })
 
     await createWindow()

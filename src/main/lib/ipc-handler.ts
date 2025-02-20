@@ -21,6 +21,7 @@ export interface IIPCHandler {
   PROCESSING_EVENTS: typeof state.PROCESSING_EVENTS
   processingManager: ProcessingManager | null
   setWindowDimensions: (width: number, height: number) => void
+  toggleMouseClick: () => void
 }
 
 export function initializeIpcHandler(deps: IIPCHandler): void {
@@ -87,7 +88,10 @@ export function initializeIpcHandler(deps: IIPCHandler): void {
       try {
         const screenshotPath = await deps.takeScreenshot()
         const preview = await deps.getImagePreview(screenshotPath)
-        mainWindow.webContents.send('screenshot-taken', { path: screenshotPath, preview })
+        mainWindow.webContents.send('screenshot-taken', {
+          path: screenshotPath,
+          preview
+        })
         return { success: true }
       } catch (error) {
         console.error('Error triggering screenshot:', error)
@@ -185,5 +189,8 @@ export function initializeIpcHandler(deps: IIPCHandler): void {
       console.error('Error opening link:', error)
       return { success: false, error: 'Failed to open link' }
     }
+  })
+  ipcMain.handle('toggle-mouse-click', async () => {
+    return deps.toggleMouseClick()
   })
 }

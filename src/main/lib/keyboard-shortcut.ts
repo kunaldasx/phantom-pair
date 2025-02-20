@@ -14,6 +14,7 @@ export interface IKeyboardShortcutHelper {
   clearQueues: () => void
   setView: (view: 'queue' | 'solutions' | 'debug') => void
   processingManager: ProcessingManager | null
+  toggleMouseClick: () => void
 }
 
 export class KeyboardShortcutHelper {
@@ -58,6 +59,13 @@ export class KeyboardShortcutHelper {
       console.log('moveWindowDown')
       this.deps.moveWindowDown()
     })
+    globalShortcut.register("CommandOrControl+'", () => {
+      const mainWindow = this.deps.getMainWindow()
+      if (mainWindow) {
+        console.log('Resetting window position: (0, 0)')
+        mainWindow.setPosition(0, 0)
+      }
+    })
     globalShortcut.register('CommandOrControl+B', () => {
       console.log('toggleMainWindow')
       this.deps.toggleMainWindow()
@@ -69,7 +77,6 @@ export class KeyboardShortcutHelper {
         try {
           const screenshotPath = await this.deps.takeScreenshot()
           const preview = await this.deps.getImagePreview(screenshotPath)
-          console.log('screenshot taken', screenshotPath, preview)
           mainWindow.webContents.send('screenshot-taken', {
             path: screenshotPath,
             preview
@@ -135,6 +142,10 @@ export class KeyboardShortcutHelper {
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('reset-view')
       }
+    })
+    globalShortcut.register('CommandOrControl+;', () => {
+      console.log('toggleMouseClick')
+      this.deps.toggleMouseClick()
     })
   }
 }

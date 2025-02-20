@@ -25,9 +25,20 @@ export const SolutionSection = ({
       })
     }
   }
+
   return (
-    <div className="space-y-2 relative">
-      <h2 className="text-[13px] font-medium text-white tracking-wide">{title}</h2>
+    <div className="space-y-2">
+      <div className="flex justify-between items-center w-full px-4">
+        <h2 className="text-[13px] font-medium text-white tracking-wide">{title}</h2>
+        {!isLoading && (
+          <button
+            onClick={copyToClipboard}
+            className="text-xs text-white bg-white/10 hover:bg-white/20 rounded px-2 py-1 transition cursor-pointer"
+          >
+            {copied ? 'Copied' : 'Copy'}
+          </button>
+        )}
+      </div>
       {isLoading ? (
         <div className="space-y-1.5">
           <div className="mt-4 flex">
@@ -37,26 +48,19 @@ export const SolutionSection = ({
           </div>
         </div>
       ) : (
-        <div className="w-full relative">
-          <button
-            onClick={copyToClipboard}
-            className="absolute right-2 top-2 text-xs text-white bg-white/10 hover:bg-white/20 rounded px-2 py-1 transition"
-          >
-            {copied ? 'Copied' : 'Copy'}
-          </button>
+        <div className="w-full overflow-x-auto z-500">
           <SyntaxHighlighter
             language={currentLanguage === 'golang' ? 'go' : currentLanguage}
             style={dracula}
             showLineNumbers
+            wrapLongLines={true}
             customStyle={{
               maxWidth: '100%',
               margin: '0',
-              padding: '1rem',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-all',
-              backgroundColor: 'rgba(22, 27, 34, 0.5)'
+              backgroundColor: 'rgba(22, 27, 34, 0.5)',
+              overflowX: 'auto',
+              padding: '1rem 1.5rem'
             }}
-            wrapLongLines={true}
           >
             {content as string}
           </SyntaxHighlighter>
