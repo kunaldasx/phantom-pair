@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-	Shadow AI — an Electron-powered coding assistant that instantly reads coding problems from screenshots and delivers AI-generated solutions with clear explanations.
+	An AI powered coding assistant that reads problems from screenshots and delivers instant solutions - while remaining invisible to screen recorders.
 </h4>
 
 <p align="center">
