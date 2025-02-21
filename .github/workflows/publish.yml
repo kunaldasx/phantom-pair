@@ -13,9 +13,9 @@ jobs:
     timeout-minutes: 60
     runs-on: ${{ matrix.os }}
 
-  strategy:
-    matrix:
-      os: [macos-latest, windows-latest]
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest]
 
       steps:
         - name: Check out Git repository
@@ -26,8 +26,8 @@ jobs:
           with:
             node-version: 20
 
-        - name: Install dependencies
-          run: npm ci # Use 'npm ci' instead of 'npm install --no-frozen-lockfile'
+            - name: Install dependencies
+              run: npm ci
 
         # Windows-specific publish step
         - name: Build and Publish (Windows)
@@ -41,37 +41,14 @@ jobs:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             DEBUG: electron-builder
 
-        # macOS-specific publish step (Build and Sign)
-        - name: Build and Publish (macOS)
-          if: matrix.os == 'macos-latest'
-          uses: nick-fields/retry@v3
-          with:
-            timeout_minutes: 45
-            max_attempts: 3
-            command: npm run build:mac -- --publish always
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            APPLE_ID: ${{ secrets.APPLE_ID }}
-            APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
-            APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-            CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
-            CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
-            CSC_IDENTITY_AUTO_DISCOVERY: true
-            CSC_TIMEOUT: 1800000
-            DEBUG: 'electron-builder*,electron-osx-sign*'
-
-        # Separate Notarization Step for macOS
-        - name: Notarize macOS App
-          if: matrix.os == 'macos-latest'
-          uses: nick-fields/retry@v3
-          with:
-            timeout_minutes: 30
-            max_attempts: 3
-            command: node notarize.js
-          env:
-            APP_BUNDLE_ID: com.kunaldas.shadowai
-            # Fix: Use glob pattern or correct path
-            APP_PATH: 'dist/mac-arm64/*.app'
-            APPLE_ID: ${{ secrets.APPLE_ID }}
-            APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
-            APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+            # Linux-specific publish step
+            - name: Build and Publish (Linux)
+              if: matrix.os == 'ubuntu-latest'
+              uses: nick-fields/retry@v3
+              with:
+                  timeout_minutes: 45
+                  max_attempts: 3
+                  command: npm run build:linux -- --publish always
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  DEBUG: electron-builder
