@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-	An AI powered coding assistant that reads problems from screenshots and delivers instant solutions - while remaining invisible to screen recorders.
+	An AI-powered coding assistant that reads problems from screenshots and delivers instant solutions - while remaining invisible to screen recorders.
 </h4>
 
 <p align="center">
