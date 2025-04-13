@@ -3,7 +3,7 @@ name: Build and Publish Phantom Pair
 on:
   push:
     tags:
-      - v*
+      - 'v*'
 
 permissions:
   contents: write
@@ -13,39 +13,39 @@ jobs:
     timeout-minutes: 60
     runs-on: ${{ matrix.os }}
 
-        strategy:
-            matrix:
-                os: [windows-latest, ubuntu-latest]
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
 
-      steps:
-        - name: Check out Git repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
 
-        - name: Install Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 20
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-        # Windows-specific publish step
-        - name: Build and Publish (Windows)
-          if: matrix.os == 'windows-latest'
-          uses: nick-fields/retry@v3
-          with:
-            timeout_minutes: 45
-            max_attempts: 3
-            command: npm run build:win -- --publish always
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            DEBUG: electron-builder
+      # Windows-specific publish step
+      - name: Build and Publish (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 45
+          max_attempts: 3
+          command: npm run build:win -- --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEBUG: electron-builder
 
-            # Linux-specific publish step
-            - name: Build and Publish (Linux)
-              if: matrix.os == 'ubuntu-latest'
-              continue-on-error: true
-              run: npm run build:linux -- --publish always
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  DEBUG: electron-builder
+      # Linux-specific publish step
+      - name: Build and Publish (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        continue-on-error: true
+        run: npm run build:linux -- --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEBUG: electron-builder
