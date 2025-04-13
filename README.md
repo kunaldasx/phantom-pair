@@ -1,8 +1,8 @@
 <h1 align="center" style>
   <br>
-  <a href="" target="_blank"><img src="src/renderer/src/assets/logo.png" alt="crusto" width="200"></a>
+  <a href="https://github.com/kunaldasx/phantom-pair" target="_blank"><img src="src/renderer/src/assets/logo.png" alt="phantom-pair" width="200"></a>
   <br>
-  Shadow
+  Phantom Pair
   <br/>
 </h1>
 
@@ -51,10 +51,22 @@
   <img src="src/renderer/src/assets/code-connect-preview.png" alt="preview" width="100%" />
 </p>
 
-<!-- 🌐 **Live Demo**🔗 [crusto-pizza.vercel.app](https://crusto-pizza.vercel.app) -->
+## Download
+
+Download the latest version for your platform:
+
+**Windows:** [phantom-pair-1.0.0-setup.exe](https://github.com/kunaldasx/phantom-pair/releases/download/v1.0.0/phantom-pair-1.0.0-setup.exe)
+
+**Linux:**
+
+- [phantom-pair-1.0.0.AppImage](https://github.com/kunaldasx/phantom-pair/releases/download/v1.0.0/phantom-pair-1.0.0.AppImage) (Universal)
+- [phantom-pair_1.0.0_amd64.deb](https://github.com/kunaldasx/phantom-pair/releases/download/v1.0.0/phantom-pair_1.0.0_amd64.deb) (Debian/Ubuntu)
+
+**[📜 View all releases](https://github.com/Kunaldasx/phantom-pair/releases)**
 
 ## Key Features
 
+- **Privacy Overlay** – Invisible to screen recorders, streaming tools, and screen sharing
 - **Screenshot Capture** - Global hotkeys for instant problem screenshot capture
 - **AI Problem Analysis** - Extract coding problems from images using GPT/Gemini
 - **Multi-Language Support** - Generate solutions in Python, C++, Java, and more
@@ -73,7 +85,7 @@
 ## Project Structure
 
 ```
-shadow-stealth-ai-assistant/
+phantom-pair/
 ├── src/
 │   ├── main/                    # Electron main process
 │   │   ├── index.ts            # Application entry point and window management
@@ -115,8 +127,8 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 ##### Clone this repository
 
 ```bash
-$ git clone https://github.com/kunaldasx/shadow-stealth-ai-assistant
-$ cd shadow-stealth-ai-assistant
+$ git clone https://github.com/kunaldasx/phantom-pair
+$ cd phantom-pair
 ```
 
 #### Development Commands
@@ -150,7 +162,7 @@ npm run build:unpack
 
 ## How to Contribute
 
-1. Clone repo and create a new branch: `$ https://github.com/kunaldasx/shadow-stealth-ai-assistant -b name_for_new_branch`.
+1. Clone repo and create a new branch: `$ https://github.com/kunaldasx/phantom-pair -b name_for_new_branch`.
 2. Make changes and test
 3. Submit Pull Request with comprehensive description of changes
 

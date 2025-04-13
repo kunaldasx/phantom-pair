@@ -1,4 +1,4 @@
-name: Build and Publish Shadow AI
+name: Build and Publish Phantom Pair
 
 on:
   push:
